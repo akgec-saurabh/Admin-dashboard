@@ -1,0 +1,24 @@
+.mainNav {
+  width: 20rem;
+  height: 100vh;
+  background-color: var(--element);
+  padding: 1rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  transition: all 0.2s;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+    border-radius: 2px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar);
+    }
+  }
+}
+
+.expandMain {
+  width: 4.5rem;
+}

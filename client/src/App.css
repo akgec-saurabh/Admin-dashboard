@@ -1,0 +1,15 @@
+:root {
+  --background: #24293c;
+  --element: #2d3248;
+  --hover: #404767;
+  --color: #ececec;
+  --scrollbar: #485075;
+}
+
+body {
+  background-color: var(--background);
+}
+
+.app {
+  display: flex;
+}

@@ -1,0 +1,17 @@
+.item {
+  color: var(--color);
+  display: flex;
+  align-items: center;
+  border-radius: 0.4rem;
+  margin-top: 0.2rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+
+  .icon {
+    width: 0.6rem;
+    margin-right: 1rem;
+  }
+  &:hover {
+    background-color: var(--hover);
+  }
+}
