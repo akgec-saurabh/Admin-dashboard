@@ -1,6 +1,7 @@
 .headerNav {
   background-color: var(--element);
-  width: 100%;
+  width: calc(100% - 2rem);
+  margin: 1rem;
   display: flex;
   justify-content: space-between;
   color: var(--color);

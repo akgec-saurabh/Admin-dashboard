@@ -1,5 +1,6 @@
-import "./App.css";
+import "./App.scss";
 import MainNav from "./components/MainNav/MainNav";
+
 import Chart from "./pages/Chart/Chart";
 
 const App = () => {

@@ -8,8 +8,20 @@
 
 body {
   background-color: var(--background);
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 2px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar);
+    }
+  }
 }
 
 .app {
   display: flex;
+  overflow: auto;
 }
