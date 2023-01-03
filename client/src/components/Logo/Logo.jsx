@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import "./Logo.scss";
 
 import AdjustOutlined from "@mui/icons-material/AdjustOutlined";
 import LensOutlinedIcon from "@mui/icons-material/LensOutlined";
+import CloseIcon from "@mui/icons-material/Close";
+import Sidebar from "../../context/Sidebar";
+const Logo = ({ collapse }) => {
+  const { button, ButtonClickHandler, closeMobileMenuHandler } =
+    useContext(Sidebar);
 
-const Logo = ({ collapse, onClick, button }) => {
   return (
     <div className={`logo ${collapse ? "expand" : ""}`}>
       <div className="logo__container">
@@ -17,7 +21,20 @@ const Logo = ({ collapse, onClick, button }) => {
         <div className="logo__name">Vuexy</div>
       </div>
 
-      <div onClick={onClick}>
+      <div
+        onClick={() => {
+          closeMobileMenuHandler();
+        }}
+        className="mobileClose"
+      >
+        <CloseIcon />
+      </div>
+      <div
+        onClick={() => {
+          ButtonClickHandler();
+        }}
+        className="circle"
+      >
         {button ? (
           <LensOutlinedIcon className="adjustIcon" />
         ) : (

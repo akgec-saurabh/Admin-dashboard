@@ -16,12 +16,26 @@ const cerd = {
   cert,
 };
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET");
+  next();
+});
+
 app.use("/api", getData);
 
-app.get((erroe, req, res, next) => {
-  const error = new Error("This route not found");
-  error.code = 500;
-  res.status(500).json({ message: error.message });
+app.use((req, res, next) => {
+  const error = new Error("This route could not be found");
+  error.code = 404;
+  throw error;
+});
+
+app.get((err, req, res, next) => {
+  res.status(500).json({ message: err.message || "some unknow error occured" });
 });
 
 console.log(process.env.MONGO_URI_DASHBOARD);

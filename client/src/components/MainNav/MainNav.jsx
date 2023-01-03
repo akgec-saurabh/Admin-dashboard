@@ -1,16 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import Sidebar from "../../context/Sidebar";
 import Logo from "../Logo/Logo";
 import NavItems from "../NavItems/NavItems";
 import "./MainNav.scss";
 
 const MainNav = () => {
-  const [buttonClick, setButtonClick] = useState(false);
+  const { button, ButtonClickHandler, mobileMenu } = useContext(Sidebar);
   const [collapse, setCollapse] = useState(false);
-
-  const ButtonClickHandler = () => {
-    setButtonClick(!buttonClick);
-    console.log("Click", collapse);
-  };
+  console.log(mobileMenu);
 
   return (
     <div
@@ -18,21 +15,19 @@ const MainNav = () => {
         setCollapse(false);
       }}
       onMouseLeave={() => {
-        if (buttonClick) {
+        if (button) {
           setCollapse(true);
         } else {
-          if (buttonClick) {
+          if (button) {
             setCollapse(false);
           }
         }
       }}
-      className={`mainNav ${collapse ? "expandMain" : ""}`}
+      className={`mainNav ${collapse ? "expandMain" : ""} ${
+        mobileMenu ? "" : "mobileMenuClose"
+      }`}
     >
-      <Logo
-        button={buttonClick}
-        onClick={ButtonClickHandler}
-        collapse={collapse}
-      />
+      <Logo button={button} onClickr={ButtonClickHandler} collapse={collapse} />
       <NavItems collapse={collapse} />
     </div>
   );

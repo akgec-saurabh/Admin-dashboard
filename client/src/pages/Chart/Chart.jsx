@@ -1,44 +1,102 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useContext } from "react";
 import ChartLayout from "../../components/ChartLayout/ChartLayout";
 import DonutChart from "../../components/DonutChart/DonutChart";
 import HeaderNav from "../../components/HeaderNav/HeaderNav";
 import Pie from "../../components/PieChart/Pie";
 import "./Chart.scss";
 import StackedAreaChart from "../../components/StackedAreaChart/StackedAreaChart";
-
-const data = [
-  { item: "A", count: 590, value: 155 },
-  { item: "B", count: 291, value: 590 },
-  { item: "C", count: 348, value: 150 },
-  { item: "D", count: 245, value: 400 },
-  { item: "E", count: 45, value: 45 },
-];
+import ScatterChart from "../../components/ScatterChart/ScatterChart";
+import LineChart from "../../components/LineChart/LineChart";
+import { useHttpClient } from "../../hooks/use-http";
+import * as d3 from "d3";
+import Sidebar from "../../context/Sidebar";
 
 const Chart = () => {
-  const [flag, setFlag] = useState(true);
+  const [transformData, setTransformData] = useState([]);
+  const { sendReq, loading, error } = useHttpClient();
+  const { button } = useContext(Sidebar);
+
+  //PASSING DATA TO ALL THE CHARTS----------------------------------------------------------
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await sendReq("https://52.0.181.40:5002/api/data");
+      const transform = response.map((obj) => {
+        return {
+          ...obj,
+          published: new Date(obj.published).getFullYear(),
+          likelihood: obj.likelihood,
+          relevance: obj.relevance,
+          intensity: Math.sqrt(obj.intensity),
+        };
+      });
+
+      setTransformData(transform);
+    };
+    fetchData();
+  }, []);
+  //PASSING DATA TO ALL THE CHARTS----------------------------------------------------------
+
   return (
-    <div className="chart">
+    <div className={`chart ${button ? "nowcollapse" : ""}`}>
+      <div className="blur"></div>
       <HeaderNav />
 
+      <div className="two-chart">
+        <ChartLayout
+          heading="Chart for Total Sum Likelihood in that Segment/Year"
+          description="Hover on Pie slices for details"
+          loading={loading}
+        >
+          <Pie
+            transformData={transformData}
+            width="300"
+            height="300"
+            piefor="likelihood"
+          />
+        </ChartLayout>
+        <ChartLayout
+          heading="Chart for Total Sum Relevance in that Segment/Year"
+          description="Hover on Pie slices for details"
+          loading={loading}
+        >
+          <Pie
+            transformData={transformData}
+            width="300"
+            height="300"
+            piefor="relevance"
+          />
+        </ChartLayout>
+      </div>
       <ChartLayout
-        heading="Statistics"
-        description="Commertial networks and enterprises"
+        heading="Graph for [Maximum] Likelood vs Relevance vs Intensity(SquareRoot) "
+        description="1990 is Uncategorized Category, touch on legend to hide or show, "
+        loading={loading}
       >
-        <StackedAreaChart />
+        <LineChart transformData={transformData} />
       </ChartLayout>
 
       <ChartLayout
-        heading="Statistics"
-        description="Commertial networks and enterprises"
+        heading="Scatter Graph for [Maximum] Likelood vs Relevance vs Intensity(SquareRoot)"
+        description="For Visuals only I have multiplied likelood, relvance and Intensity with a random number[0 to 1] so every time you refresh the random number change so the graph will also data is fetched from MongoDB only"
+        loading={loading}
+        options={[
+          "End Year",
+          "Topics",
+          "Pestle",
+          "Sector",
+          "Region",
+          "Country",
+        ]}
       >
-        <DonutChart data={data} width="300" height="300" />
+        <ScatterChart transformData={transformData} />
       </ChartLayout>
 
       <ChartLayout
-        heading="Statistics"
-        description="Commertial networks and enterprises"
+        heading="Stacked Area Graph for [Maximum] Likelood vs Relevance vs Intensity(SquareRoot) "
+        description="1990 is Uncategorized Category, touch on legend to hide or show, "
+        loading={loading}
       >
-        <Pie data={data} width="300" height="300" />
+        <StackedAreaChart transformData={transformData} />
       </ChartLayout>
     </div>
   );

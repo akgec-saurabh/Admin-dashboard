@@ -5,13 +5,23 @@ import Translate from "@mui/icons-material/Translate";
 import DashboardCustomizeOutlined from "@mui/icons-material/DashboardCustomizeOutlined";
 import NotificationsNoneOutlined from "@mui/icons-material/NotificationsNoneOutlined";
 import SearchOutlined from "@mui/icons-material/SearchOutlined";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import { Badge } from "@mui/material";
+import { useContext } from "react";
+import Sidebar from "../../context/Sidebar";
 
 const HeaderNav = () => {
+  const { closeMobileMenuHandler } = useContext(Sidebar);
+  const mobileMenuHandler = () => {
+    closeMobileMenuHandler();
+  };
   return (
     <div className="headerNav">
       <div className="left">
+        <div onClick={mobileMenuHandler} className="mobile">
+          <MenuIcon />
+        </div>
         <div className="hover">
           <SearchOutlined />
         </div>

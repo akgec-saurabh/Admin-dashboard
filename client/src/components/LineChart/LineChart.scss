@@ -1,0 +1,61 @@
+.lineChart {
+  padding: 2rem;
+  padding-bottom: 4rem;
+  position: relative;
+
+  svg {
+    position: relative;
+    z-index: 1;
+    overflow: visible;
+    .x-axis-grid,
+    .y-axis-grid {
+      color: rgba(255, 255, 255, 0.1);
+    }
+
+    .legend {
+      rect {
+        cursor: pointer;
+      }
+    }
+
+    .paths {
+      cursor: crosshair;
+      transition: all 1s;
+
+      .selected {
+        display: none;
+      }
+    }
+
+    .paths {
+      &:hover {
+        .path-intensity {
+          padding: 5px;
+          &:hover {
+            filter: drop-shadow(0 0 4px #7dce13);
+          }
+        }
+        .path-relevance {
+          &:hover {
+            filter: drop-shadow(0 0 4px #ffb100);
+          }
+        }
+        .path-likelihood {
+          &:hover {
+            filter: drop-shadow(0 0 4px steelblue);
+          }
+        }
+        .line {
+          transition: all 0.5s;
+          &:not(&:hover) {
+            opacity: 0.2;
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 1000px) {
+    padding: 0;
+  }
+}

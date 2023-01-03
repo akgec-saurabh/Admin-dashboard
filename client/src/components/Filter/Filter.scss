@@ -1,0 +1,19 @@
+.filter {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  right: 0;
+  top: -100px;
+
+  select {
+    padding: 0.6rem 1rem;
+    text-transform: capitalize;
+    color: inherit;
+    background-color: var(--element);
+  }
+  @media only screen and (max-width: 1000px) {
+    left: 0;
+    right: unset;
+  }
+}

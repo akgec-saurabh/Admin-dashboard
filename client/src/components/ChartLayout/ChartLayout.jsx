@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useState } from "react";
+import Loading from "../Loading/Loading";
 import "./ChartLayout.scss";
 
 const ChartLayout = (props) => {
-  const { heading, description, children } = props;
+  const { heading, description, children, loading } = props;
+
   return (
     <div className="chartLayout">
       <div className="chartHeader">
@@ -10,17 +13,11 @@ const ChartLayout = (props) => {
           <h2>{heading}</h2>
           <p>{description}</p>
         </div>
-        <div className="chartFilter">
-          <div>Labels</div>
-          <select name="cars" id="cars">
-            <option defaultValue value="option1">
-              option1
-            </option>
-            <option value="option2">option2</option>
-          </select>
-        </div>
       </div>
-      <div className="chartSvg">{children}</div>
+      <div className="chartSvg">
+        {loading && <Loading />}
+        {!loading && children}
+      </div>
     </div>
   );
 };
